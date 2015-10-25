@@ -86,18 +86,19 @@ document.addEventListener('keypress', function(key){
 function handleButton(event) {
   // If clicked button is a number
   var box = document.getElementById('cal-box');
-  if(!isNaN(event.target.id)) {
+  var clickedElem = event.target.id;
+  if(!isNaN(clickedElem)) {
     // If last operation was math.eval then start new string
     if(lastNum == 'new') {
       box.value = '';
     }
     // Append new value
-    box.value = box.value + event.target.id;
-    lastNum = event.target.id;
+    box.value = box.value + clickedElem;
+    lastNum = clickedElem;
   // If clicked button is not a number
   } else {
     // If clicked button is '='
-    if(event.target.id == '=') {
+    if(clickedElem == '=') {
       // Evaluate current string
       box.value = math.eval(box.value);
       // Note that the last operation was an eval
@@ -106,8 +107,8 @@ function handleButton(event) {
     } else {
       // If the last button clicked was a number, allow the operator to be appended
       if(!isNaN(lastNum)) {
-        box.value = box.value + event.target.id;
-        lastNum = event.target.id;
+        box.value = box.value + clickedElem;
+        lastNum = clickedElem;
       }
     }
   }
