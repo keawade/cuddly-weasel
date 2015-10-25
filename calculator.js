@@ -102,12 +102,11 @@ function calculator(base) {
     }
   }
   // If Enter/Return is pressed, click '=' to evaluate
-  document.onkeypress = function(key){
-    console.log(key);
+  document.addEventListener('keypress', function(key){
     if(key.keyCode == 13){
       document.getElementById('=').click();
     }
-  }
+  }, false);
 }
 
 function themeButtons(base) {
