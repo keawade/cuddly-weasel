@@ -31,6 +31,11 @@ function prep(){
   heading(header);
   calculator(main);
   themeButtons(footer);
+
+  var about = document.createElement('p');
+  about.appendChild(document.createTextNode('Created by keawade'));
+  footer.appendChild(about);
+
 }
 
 function heading(head){
