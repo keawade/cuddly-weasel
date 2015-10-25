@@ -35,7 +35,7 @@ function prep() {
   themeButtons(footer);
 
   var about = document.createElement('p');
-  about.appendChild(document.createTextNode('Created by keawade'));
+  about.appendChild(document.createTextNode('Aaaaah! I can only fix bugs so fast!'));
   footer.appendChild(about);
 }
 
@@ -73,11 +73,11 @@ function calculator(base) {
   }
   // If Enter/Return is pressed, click '=' to evaluate
   document.addEventListener('keypress', function(key){
-    console.log(String.fromCharCode(key.charCode));
+    var keyString = String.fromCharCode(key.charCode);
     if(key.keyCode == 13){
       document.getElementById('=').click();
-    } else if (/[0-9]|[/*-+=.]/.test(String.fromCharCode(key.charCode))) {
-      document.getElementById(String.fromCharCode(key.charCode)).click();
+    } else if (/[0-9]|[/*-+=.]/.test(keyString)) {
+      document.getElementById(keyString).click();
     }
   }, false);
 }
