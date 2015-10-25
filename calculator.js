@@ -35,7 +35,7 @@ function prep() {
   footer.appendChild(themeButton());
 
   var about = document.createElement('p');
-  about.appendChild(document.createTextNode('Aaaaah! I can only fix bugs so fast!'));
+  about.appendChild(document.createTextNode('Created by @keawade'));
   footer.appendChild(about);
 }
 
