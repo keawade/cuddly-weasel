@@ -35,7 +35,11 @@ function prep() {
   footer.appendChild(themeButton());
 
   var about = document.createElement('p');
-  about.appendChild(document.createTextNode('Created by @keawade'));
+  var a = document.createElement('a');
+  a.href = 'https://github.com/keawade';
+  a.textContent = '@keawade';
+  about.appendChild(document.createTextNode('Created by '));
+  about.appendChild(a);
   footer.appendChild(about);
 }
 
