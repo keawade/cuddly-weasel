@@ -25,19 +25,28 @@ function prep(){
   container.appendChild(aside);
   container.appendChild(footer);
 
+// Add container to page
+  document.body.appendChild(container);
+
+  heading(header);
+  calculator(main);
+  themeButtons(footer);
+
+}
+
+function heading(head){
 // Add heading to header
   var title = document.createElement('h1');
   title.className = 'title';
   title.textContent = 'Calculon';
-  header.appendChild(title);
+  head.appendChild(title);
+}
 
-// Add container to page
-  document.body.appendChild(container);
-
+function calculator(base){
 // Add calculator wrapper div
   calculatorWrap = document.createElement('div');
   calculatorWrap.id = 'calculator';
-  main.appendChild(calculatorWrap);
+  base.appendChild(calculatorWrap);
 
 // Add input box
   var box = document.createElement('input');
@@ -47,12 +56,57 @@ function prep(){
 // Add calculator buttons
   for(var i = 0; i < buttons.length; i++){
     for(var j = 0; j < buttons[i].length; j++){
+      var buttonContent = buttons[i][j];
       var button = document.createElement('button');
       button.className = 'cal-button';
-      button.appendChild(document.createTextNode(buttons[i][j]));
+      button.id = buttonContent;
+      button.appendChild(document.createTextNode(buttonContent));
+      button.addEventListener('click', buttonClick, false);
       calculatorWrap.appendChild(button);
     }
   }
+}
+
+function buttonClick(){
+  console.log("click!");
+}
+
+function themeButtons(base){
+  var themeWrapper = document.createElement('div');
+  themeWrapper.id = 'theme-changer';
+  base.appendChild(themeWrapper);
+
+  var toggle = document.createElement('button');
+  toggle.id = 'toggle';
+  toggle.className = 'toggle';
+  toggle.appendChild(document.createTextNode('Toggle Theme'));
+  toggle.addEventListener('click', switchTheme, false);
+  themeWrapper.appendChild(toggle);
+}
+
+var theme = 'dark';
+function switchTheme(){
+  var current = document.getElementsByTagName("link").item(2);
+  if(theme == 'light'){
+    theme = 'dark';
+    changeCSS('themes/dark.css', 2);
+  } else {
+    theme = 'light';
+    changeCSS('themes/light.css', 2);
+  }
+  //changeCSS('themes/light.css', '2')
+}
+
+function changeCSS(cssFile, cssLinkIndex) {
+
+  var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
+
+  var newlink = document.createElement("link");
+  newlink.setAttribute("rel", "stylesheet");
+  newlink.setAttribute("type", "text/css");
+  newlink.setAttribute("href", cssFile);
+
+  document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
 }
 
 document.body.onload = prep();
