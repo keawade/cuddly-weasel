@@ -30,28 +30,27 @@ function prep() {
   // Add container to page
   document.body.appendChild(container);
 
-  heading(header);
-  calculator(main);
-  themeButtons(footer);
+  header.appendChild(heading());
+  main.appendChild(calculator());
+  footer.appendChild(themeButton());
 
   var about = document.createElement('p');
   about.appendChild(document.createTextNode('Aaaaah! I can only fix bugs so fast!'));
   footer.appendChild(about);
 }
 
-function heading(head) {
+function heading() {
   // Add heading to header
   var title = document.createElement('h1');
   title.className = 'title';
   title.textContent = 'Calculon';
-  head.appendChild(title);
+  return title;
 }
 
-function calculator(base) {
+function calculator() {
   // Add calculator wrapper div
   var calculatorWrap = document.createElement('div');
   calculatorWrap.id = 'calculator';
-  base.appendChild(calculatorWrap);
 
   // Add input box
   var box = document.createElement('input');
@@ -71,16 +70,18 @@ function calculator(base) {
       calculatorWrap.appendChild(button);
     }
   }
-  // If Enter/Return is pressed, click '=' to evaluate
-  document.addEventListener('keypress', function(key){
-    var keyString = String.fromCharCode(key.charCode);
-    if(key.keyCode == 13){
-      document.getElementById('=').click();
-    } else if (/[0-9]|[/*-+=.]/.test(keyString)) {
-      document.getElementById(keyString).click();
-    }
-  }, false);
+  return calculatorWrap;
 }
+
+// If Enter/Return is pressed, click '=' to evaluate
+document.addEventListener('keypress', function(key){
+  var keyString = String.fromCharCode(key.charCode);
+  if(key.keyCode == 13){
+    document.getElementById('=').click();
+  } else if (/[0-9]|[/*-+=.]/.test(keyString)) {
+    document.getElementById(keyString).click();
+  }
+}, false);
 
 function handleButton(event) {
   // If clicked button is a number
@@ -114,10 +115,9 @@ function handleButton(event) {
   this.blur();
 }
 
-function themeButtons(base) {
+function themeButton() {
   var themeWrapper = document.createElement('div');
   themeWrapper.id = 'theme-changer';
-  base.appendChild(themeWrapper);
 
   var toggle = document.createElement('button');
   toggle.id = 'toggle';
@@ -125,6 +125,7 @@ function themeButtons(base) {
   toggle.appendChild(document.createTextNode('Toggle Theme'));
   toggle.addEventListener('click', switchTheme, false);
   themeWrapper.appendChild(toggle);
+  return themeWrapper;
 }
 
 function switchTheme() {
