@@ -1,8 +1,8 @@
-// Double array for button layout
+  // Double array for button layout
 var buttons = [['7','8','9','+'],['4','5','6','-'],['1','2','3','*'],['0','.','=','/']];
 
 function prep(){
-// Create base elements for the page
+  // Create base elements for the page
   var container = document.createElement('div');
   var header = document.createElement('div');
   var nav = document.createElement('div');
@@ -10,7 +10,7 @@ function prep(){
   var aside = document.createElement('div');
   var footer = document.createElement('div');
 
-// Apply IDs to the base elements
+  // Apply IDs to the base elements
   container.id = 'container';
   header.id = 'header';
   nav.id = 'nav';
@@ -18,42 +18,43 @@ function prep(){
   aside.id = 'aside';
   footer.id = 'footer';
 
-// Append main elements to container
+  // Append main elements to container
   container.appendChild(header);
   container.appendChild(nav);
   container.appendChild(main);
   container.appendChild(aside);
   container.appendChild(footer);
 
-// Add container to page
+  // Add container to page
   document.body.appendChild(container);
 
   heading(header);
   calculator(main);
   themeButtons(footer);
-
 }
 
 function heading(head){
-// Add heading to header
+  // Add heading to header
   var title = document.createElement('h1');
   title.className = 'title';
   title.textContent = 'Calculon';
   head.appendChild(title);
 }
 
+var lastNum = '=';
 function calculator(base){
-// Add calculator wrapper div
+  // Add calculator wrapper div
   calculatorWrap = document.createElement('div');
   calculatorWrap.id = 'calculator';
   base.appendChild(calculatorWrap);
 
-// Add input box
+  // Add input box
   var box = document.createElement('input');
   box.className = 'cal-box';
+  box.id = 'cal-box';
   calculatorWrap.appendChild(box);
 
-// Add calculator buttons
+  // Add calculator buttons
   for(var i = 0; i < buttons.length; i++){
     for(var j = 0; j < buttons[i].length; j++){
       var buttonContent = buttons[i][j];
@@ -61,7 +62,35 @@ function calculator(base){
       button.className = 'cal-button';
       button.id = buttonContent;
       button.appendChild(document.createTextNode(buttonContent));
-      button.addEventListener('click', buttonClick, false);
+      button.addEventListener('click', function(event){
+        // If clicked button is a number
+        if(!isNaN(event.target.id)){
+          // If last operation was math.eval then start new string
+          if(lastNum == 'new'){
+            box.value = '';
+          }
+          // Append new value
+          box.value = box.value + event.target.id;
+          lastNum = event.target.id;
+        // If clicked button is not a number
+        } else {
+          // If clicked button is '='
+          if(event.target.id == '='){
+            // Evaluate current string
+            box.value = math.eval(box.value);
+            // Note that the last operation was an eval
+            lastNum = 'new';
+          // If clicked button is an operation
+          } else {
+            // If the last button clicked was a number, allow the operator to be appended
+            if(!isNaN(lastNum)){
+              box.value = box.value + event.target.id;
+              lastNum = event.target.id;
+            }
+          }
+        }
+
+      }, false);
       calculatorWrap.appendChild(button);
     }
   }
@@ -94,7 +123,7 @@ function switchTheme(){
     theme = 'light';
     changeCSS('themes/light.css', 2);
   }
-  //changeCSS('themes/light.css', '2')
+    //changeCSS('themes/light.css', '2')
 }
 
 function changeCSS(cssFile, cssLinkIndex) {
