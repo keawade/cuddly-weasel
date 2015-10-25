@@ -1,7 +1,6 @@
 /* global math */
 // Variables
 var buttons = [['7','8','9','+'],['4','5','6','-'],['1','2','3','*'],['0','.','=','/']];
-var theme = 'dark';
 var lastNum = '=';
 
 function prep() {
@@ -129,22 +128,12 @@ function themeButtons(base) {
 }
 
 function switchTheme() {
-  if(theme == 'light') {
-    theme = 'dark';
-    changeCSS('themes/dark.css', 2);
+  theme = document.body.className;
+  if(theme == 'theme-light') {
+    document.body.className = 'theme-dark';
   } else {
-    theme = 'light';
-    changeCSS('themes/light.css', 2);
+    document.body.className = 'theme-light';
   }
-}
-
-function changeCSS(cssFile, cssLinkIndex) {
-  var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
-  var newlink = document.createElement("link");
-  newlink.setAttribute("rel", "stylesheet");
-  newlink.setAttribute("type", "text/css");
-  newlink.setAttribute("href", cssFile);
-  document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
 }
 
 document.body.onload = prep();
