@@ -103,8 +103,11 @@ function calculator(base) {
   }
   // If Enter/Return is pressed, click '=' to evaluate
   document.addEventListener('keypress', function(key){
+    console.log(String.fromCharCode(key.charCode));
     if(key.keyCode == 13){
       document.getElementById('=').click();
+    } else if (/[0-9]|[/*-+=.]/.test(String.fromCharCode(key.charCode))) {
+      document.getElementById(String.fromCharCode(key.charCode)).click();
     }
   }, false);
 }
