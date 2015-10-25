@@ -68,36 +68,7 @@ function calculator(base) {
       button.className = 'cal-button';
       button.id = buttonContent;
       button.appendChild(document.createTextNode(buttonContent));
-      button.addEventListener('click', function(event) {
-        // If clicked button is a number
-        if(!isNaN(event.target.id)) {
-          // If last operation was math.eval then start new string
-          if(lastNum == 'new') {
-            box.value = '';
-          }
-          // Append new value
-          box.value = box.value + event.target.id;
-          lastNum = event.target.id;
-        // If clicked button is not a number
-        } else {
-          // If clicked button is '='
-          if(event.target.id == '=') {
-            // Evaluate current string
-            box.value = math.eval(box.value);
-            // Note that the last operation was an eval
-            lastNum = 'new';
-          // If clicked button is an operation
-          } else {
-            // If the last button clicked was a number, allow the operator to be appended
-            if(!isNaN(lastNum)) {
-              box.value = box.value + event.target.id;
-              lastNum = event.target.id;
-            }
-          }
-        }
-        // Remove keyboard focus on button
-        this.blur();
-      }, false);
+      button.addEventListener('click', handleButton, false);
       calculatorWrap.appendChild(button);
     }
   }
@@ -110,6 +81,38 @@ function calculator(base) {
       document.getElementById(String.fromCharCode(key.charCode)).click();
     }
   }, false);
+}
+
+function handleButton(event) {
+  // If clicked button is a number
+  var box = document.getElementById('cal-box');
+  if(!isNaN(event.target.id)) {
+    // If last operation was math.eval then start new string
+    if(lastNum == 'new') {
+      box.value = '';
+    }
+    // Append new value
+    box.value = box.value + event.target.id;
+    lastNum = event.target.id;
+  // If clicked button is not a number
+  } else {
+    // If clicked button is '='
+    if(event.target.id == '=') {
+      // Evaluate current string
+      box.value = math.eval(box.value);
+      // Note that the last operation was an eval
+      lastNum = 'new';
+    // If clicked button is an operation
+    } else {
+      // If the last button clicked was a number, allow the operator to be appended
+      if(!isNaN(lastNum)) {
+        box.value = box.value + event.target.id;
+        lastNum = event.target.id;
+      }
+    }
+  }
+  // Remove keyboard focus on button
+  this.blur();
 }
 
 function themeButtons(base) {
@@ -126,7 +129,6 @@ function themeButtons(base) {
 }
 
 function switchTheme() {
-  var current = document.getElementsByTagName("link").item(2);
   if(theme == 'light') {
     theme = 'dark';
     changeCSS('themes/dark.css', 2);
