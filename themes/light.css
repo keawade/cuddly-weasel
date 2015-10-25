@@ -1,24 +1,12 @@
 body {
   background-color: #fdf6e3;
 }
-
 #header {
   color: #073642;
 }
-
-#nav {
-}
-
-#main {
-}
-
-#aside {
-}
-
 #footer {
   color: #002b36;
 }
-
 input {
   background-color: inherit;
   border: 1px solid #073642;
@@ -26,34 +14,28 @@ input {
   color: #073642;
   padding: 5px;
 }
-
 input:focus{
   border: 1px solid #586e75;
 }
-
 input:hover {
   border-color: #586e75;
 }
-
 .cal-button {
   color: #073642;
   background-color: #fdf6e3;
   border: 1px solid #073642;
   border-radius: 3px;
 }
-
 .cal-button:hover {
   background-color: #eee8d5;
   border-color: #586e75;
 }
-
 #footer button {
   color: #002b36;
   background-color: #fdf6e3;
   border: 1px solid #073642;
   border-radius: 3px;
 }
-
 #footer button:hover {
   background-color: #eee8d5;
   border-color: #002b36;

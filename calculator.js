@@ -1,5 +1,8 @@
-  // Double array for button layout
+/* global math */
+// Variables
 var buttons = [['7','8','9','+'],['4','5','6','-'],['1','2','3','*'],['0','.','=','/']];
+var theme = 'dark';
+var lastNum = '=';
 
 function prep() {
   // Create base elements for the page
@@ -35,7 +38,6 @@ function prep() {
   var about = document.createElement('p');
   about.appendChild(document.createTextNode('Created by keawade'));
   footer.appendChild(about);
-
 }
 
 function heading(head) {
@@ -46,7 +48,6 @@ function heading(head) {
   head.appendChild(title);
 }
 
-var lastNum = '=';
 function calculator(base) {
   // Add calculator wrapper div
   calculatorWrap = document.createElement('div');
@@ -110,10 +111,6 @@ function calculator(base) {
   }
 }
 
-function buttonClick() {
-  console.log("click!");
-}
-
 function themeButtons(base) {
   var themeWrapper = document.createElement('div');
   themeWrapper.id = 'theme-changer';
@@ -127,7 +124,6 @@ function themeButtons(base) {
   themeWrapper.appendChild(toggle);
 }
 
-var theme = 'dark';
 function switchTheme() {
   var current = document.getElementsByTagName("link").item(2);
   if(theme == 'light') {
@@ -137,18 +133,14 @@ function switchTheme() {
     theme = 'light';
     changeCSS('themes/light.css', 2);
   }
-    //changeCSS('themes/light.css', '2')
 }
 
 function changeCSS(cssFile, cssLinkIndex) {
-
   var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
-
   var newlink = document.createElement("link");
   newlink.setAttribute("rel", "stylesheet");
   newlink.setAttribute("type", "text/css");
   newlink.setAttribute("href", cssFile);
-
   document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
 }
 
