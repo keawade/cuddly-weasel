@@ -1,7 +1,7 @@
   // Double array for button layout
 var buttons = [['7','8','9','+'],['4','5','6','-'],['1','2','3','*'],['0','.','=','/']];
 
-function prep(){
+function prep() {
   // Create base elements for the page
   var container = document.createElement('div');
   var header = document.createElement('div');
@@ -38,7 +38,7 @@ function prep(){
 
 }
 
-function heading(head){
+function heading(head) {
   // Add heading to header
   var title = document.createElement('h1');
   title.className = 'title';
@@ -47,7 +47,7 @@ function heading(head){
 }
 
 var lastNum = '=';
-function calculator(base){
+function calculator(base) {
   // Add calculator wrapper div
   calculatorWrap = document.createElement('div');
   calculatorWrap.id = 'calculator';
@@ -60,18 +60,18 @@ function calculator(base){
   calculatorWrap.appendChild(box);
 
   // Add calculator buttons
-  for(var i = 0; i < buttons.length; i++){
-    for(var j = 0; j < buttons[i].length; j++){
+  for(var i = 0; i < buttons.length; i++) {
+    for(var j = 0; j < buttons[i].length; j++) {
       var buttonContent = buttons[i][j];
       var button = document.createElement('button');
       button.className = 'cal-button';
       button.id = buttonContent;
       button.appendChild(document.createTextNode(buttonContent));
-      button.addEventListener('click', function(event){
+      button.addEventListener('click', function(event) {
         // If clicked button is a number
-        if(!isNaN(event.target.id)){
+        if(!isNaN(event.target.id)) {
           // If last operation was math.eval then start new string
-          if(lastNum == 'new'){
+          if(lastNum == 'new') {
             box.value = '';
           }
           // Append new value
@@ -80,7 +80,7 @@ function calculator(base){
         // If clicked button is not a number
         } else {
           // If clicked button is '='
-          if(event.target.id == '='){
+          if(event.target.id == '=') {
             // Evaluate current string
             box.value = math.eval(box.value);
             // Note that the last operation was an eval
@@ -88,10 +88,19 @@ function calculator(base){
           // If clicked button is an operation
           } else {
             // If the last button clicked was a number, allow the operator to be appended
-            if(!isNaN(lastNum)){
+            if(!isNaN(lastNum)) {
               box.value = box.value + event.target.id;
               lastNum = event.target.id;
             }
+          }
+        }
+        // Remove keyboard focus on button
+        this.blur();
+        // If Enter/Return is pressed, click '=' to evaluate
+        document.onkeypress = function(key){
+          console.log(key);
+          if(key.keyCode == 13){
+            document.getElementById('=').click();
           }
         }
 
@@ -101,11 +110,11 @@ function calculator(base){
   }
 }
 
-function buttonClick(){
+function buttonClick() {
   console.log("click!");
 }
 
-function themeButtons(base){
+function themeButtons(base) {
   var themeWrapper = document.createElement('div');
   themeWrapper.id = 'theme-changer';
   base.appendChild(themeWrapper);
@@ -119,9 +128,9 @@ function themeButtons(base){
 }
 
 var theme = 'dark';
-function switchTheme(){
+function switchTheme() {
   var current = document.getElementsByTagName("link").item(2);
-  if(theme == 'light'){
+  if(theme == 'light') {
     theme = 'dark';
     changeCSS('themes/dark.css', 2);
   } else {
