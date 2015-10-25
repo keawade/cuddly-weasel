@@ -50,7 +50,7 @@ function heading(head) {
 
 function calculator(base) {
   // Add calculator wrapper div
-  calculatorWrap = document.createElement('div');
+  var calculatorWrap = document.createElement('div');
   calculatorWrap.id = 'calculator';
   base.appendChild(calculatorWrap);
 
