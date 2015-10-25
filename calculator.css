@@ -3,16 +3,23 @@
 }
 
 #calculator {
-  background-color: green;
+/*  background-color: green;*/
   margin-left: auto;
   margin-right: auto;
-  max-width: 30em;
-}
-.cal-col {
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .cal-button {
-  width: 2.5em;
-  height: 2em;
+  font-size: 2em;
+  flex-basis: 2em;
+  margin: .25em;
+  flex-basis: 20%;
+}
+
+.cal-box {
+  width: 100%;
   font-size: 2em;
 }
