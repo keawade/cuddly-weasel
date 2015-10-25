@@ -97,16 +97,15 @@ function calculator(base) {
         }
         // Remove keyboard focus on button
         this.blur();
-        // If Enter/Return is pressed, click '=' to evaluate
-        document.onkeypress = function(key){
-          console.log(key);
-          if(key.keyCode == 13){
-            document.getElementById('=').click();
-          }
-        }
-
       }, false);
       calculatorWrap.appendChild(button);
+    }
+  }
+  // If Enter/Return is pressed, click '=' to evaluate
+  document.onkeypress = function(key){
+    console.log(key);
+    if(key.keyCode == 13){
+      document.getElementById('=').click();
     }
   }
 }
