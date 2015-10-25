@@ -1,6 +1,6 @@
 /* global math */
 // Variables
-var buttons = [['7','8','9','+'],['4','5','6','-'],['1','2','3','*'],['0','.','=','/']];
+var buttons = ['7','8','9','+','4','5','6','-','1','2','3','*','0','.','=','/'];
 var lastNum = '=';
 
 function prep() {
@@ -59,17 +59,14 @@ function calculator() {
   calculatorWrap.appendChild(box);
 
   // Add calculator buttons
-  for(var i = 0; i < buttons.length; i++) {
-    for(var j = 0; j < buttons[i].length; j++) {
-      var buttonContent = buttons[i][j];
-      var button = document.createElement('button');
-      button.className = 'cal-button';
-      button.id = buttonContent;
-      button.appendChild(document.createTextNode(buttonContent));
-      button.addEventListener('click', handleButton, false);
-      calculatorWrap.appendChild(button);
-    }
-  }
+  buttons.forEach(function(buttonContent){
+    var button = document.createElement('button');
+    button.className = 'cal-button';
+    button.id = buttonContent;
+    button.appendChild(document.createTextNode(buttonContent));
+    button.addEventListener('click', handleButton, false);
+    calculatorWrap.appendChild(button);
+  })
   return calculatorWrap;
 }
 
