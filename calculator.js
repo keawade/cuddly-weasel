@@ -41,6 +41,8 @@ function prep() {
   about.appendChild(document.createTextNode('Created by '));
   about.appendChild(a);
   footer.appendChild(about);
+
+  document.getElementById('cal-box').focus();
 }
 
 function heading() {
