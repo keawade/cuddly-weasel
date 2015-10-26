@@ -107,7 +107,14 @@ function handleButton(event) {
       // If clicked button is '='
       if(clickedElem == '=') {
         // Evaluate current string
-        box.value = math.eval(box.value);
+        if(box.value.toUpperCase() == 'CALCULON'){
+          var p = document.createElement('p');
+          p.textContent = 'Funny story. The script called for me to say "Yes", but I gave it a little twist.';
+          document.getElementById('footer').appendChild(p);
+          box.value = 'Nooooo!';
+        } else {
+          box.value = math.eval(box.value);
+        }
         // Note that the last operation was an eval
         lastNum = 'new';
       // If clicked button is an operation
