@@ -88,33 +88,43 @@ function handleButton(event) {
   // If clicked button is a number
   var box = document.getElementById('cal-box');
   var clickedElem = event.target.id;
-  if(!isNaN(clickedElem)) {
-    // If last operation was math.eval then start new string
-    if(lastNum == 'new') {
-      box.value = '';
-    }
-    // Append new value
-    box.value = box.value + clickedElem;
-    lastNum = clickedElem;
-  // If clicked button is not a number
+  console.log(clickedElem);
+  if(box === document.activeElement){
+    //
   } else {
-    // If clicked button is '='
-    if(clickedElem == '=') {
-      // Evaluate current string
-      box.value = math.eval(box.value);
-      // Note that the last operation was an eval
-      lastNum = 'new';
-    // If clicked button is an operation
+    if(!isNaN(clickedElem)) {
+      // If last operation was math.eval then start new string
+      if(lastNum == 'new') {
+        box.value = '';
+      }
+      // Append new value
+      box.value = box.value + clickedElem;
+      lastNum = clickedElem;
+    // If clicked button is not a number
     } else {
-      // If the last button clicked was a number, allow the operator to be appended
-      if(!isNaN(lastNum)) {
-        box.value = box.value + clickedElem;
-        lastNum = clickedElem;
+      // If clicked button is '='
+      if(clickedElem == '=') {
+        // Evaluate current string
+        box.value = math.eval(box.value);
+        // Note that the last operation was an eval
+        lastNum = 'new';
+      // If clicked button is an operation
+      } else {
+        // If the last button clicked was a number, allow the operator to be appended
+        if(!isNaN(lastNum)) {
+          box.value = box.value + clickedElem;
+          lastNum = clickedElem;
+        }
       }
     }
+    // Remove keyboard focus on button
+    this.blur();
+  } if(clickedElem == '=') {
+    // Evaluate current string
+    box.value = math.eval(box.value);
+    // Note that the last operation was an eval
+    lastNum = 'new';
   }
-  // Remove keyboard focus on button
-  this.blur();
 }
 
 function themeButton() {
