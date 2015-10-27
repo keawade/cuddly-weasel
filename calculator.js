@@ -38,7 +38,7 @@ function prep() {
   var a = document.createElement('a');
   a.href = 'https://github.com/keawade';
   a.textContent = '@keawade';
-  about.appendChild(document.createTextNode('Created by '));
+  about.textContent = 'Created by ';
   about.appendChild(a);
   footer.appendChild(about);
 
