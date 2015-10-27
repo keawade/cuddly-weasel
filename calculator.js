@@ -83,6 +83,13 @@ document.addEventListener('keypress', function(key){
     document.getElementById('=').click();
   } else if (/[0-9]|[/*-+=.]/.test(keyString)) {
     document.getElementById(keyString).click();
+  } else if (key.keyCode = 8){
+    var box = document.getElementById('cal-box')
+    if(box === document.activeElement){
+      //
+    } else {
+      box.value = box.value.substring(0, box.value.length - 1);
+    }
   }
 }, false);
 
@@ -90,7 +97,6 @@ function handleButton(event) {
   // If clicked button is a number
   var box = document.getElementById('cal-box');
   var clickedElem = event.target.id;
-  console.log(clickedElem);
   if(box === document.activeElement){
     //
   } else {
