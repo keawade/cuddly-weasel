@@ -33,14 +33,7 @@ function prep() {
   header.appendChild(heading());
   main.appendChild(calculator());
   footer.appendChild(themeButton());
-
-  var about = document.createElement('p');
-  var a = document.createElement('a');
-  a.href = 'https://github.com/keawade';
-  a.textContent = '@keawade';
-  about.textContent = 'Created by ';
-  about.appendChild(a);
-  footer.appendChild(about);
+  footer.appendChild(about());
 
   document.getElementById('cal-box').focus();
 }
@@ -76,6 +69,16 @@ function calculator() {
   return calculatorWrap;
 }
 
+function about(){
+  var about = document.createElement('p');
+  var a = document.createElement('a');
+  a.href = 'https://github.com/keawade';
+  a.textContent = '@keawade';
+  about.textContent = 'Created by ';
+  about.appendChild(a);
+  return about;
+}
+
 // If Enter/Return is pressed, click '=' to evaluate
 document.addEventListener('keypress', function(key){
   var keyString = String.fromCharCode(key.charCode);
@@ -83,7 +86,7 @@ document.addEventListener('keypress', function(key){
     document.getElementById('=').click();
   } else if (/[0-9]|[/*-+=.]/.test(keyString)) {
     document.getElementById(keyString).click();
-  } else if (key.keyCode = 8){
+  } else if (key.keyCode == 8){
     var box = document.getElementById('cal-box')
     if(box === document.activeElement){
       //
@@ -94,6 +97,7 @@ document.addEventListener('keypress', function(key){
 }, false);
 
 function handleButton(event) {
+  var answer;
   // If clicked button is a number
   var box = document.getElementById('cal-box');
   var clickedElem = event.target.id;
@@ -119,7 +123,12 @@ function handleButton(event) {
           document.getElementById('footer').appendChild(p);
           box.value = 'Nooooo!';
         } else {
-          box.value = math.eval(box.value);
+          answer = math.eval(box.value)
+          if(isNaN(answer)){
+            //
+          } else {
+            box.value = answer;
+          }
         }
         // Note that the last operation was an eval
         lastNum = 'new';
@@ -136,7 +145,12 @@ function handleButton(event) {
     this.blur();
   } if(clickedElem == '=') {
     // Evaluate current string
-    box.value = math.eval(box.value);
+    answer = math.eval(box.value)
+    if(isNaN(answer)){
+      //
+    } else {
+      box.value = answer;
+    }
     // Note that the last operation was an eval
     lastNum = 'new';
   }

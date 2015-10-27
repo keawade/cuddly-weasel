@@ -1,18 +1,12 @@
-* {
+html, input, button {
   font-family: 'Inconsolata';
-}
-.title{
-  text-align: center;
-}
-input {
-  text-align: center;
 }
 #container {
   margin-left: auto;
   margin-right: auto;
   max-width: 400px;
 }
-#footer {
+.title{
   text-align: center;
 }
 #calculator {
@@ -22,11 +16,14 @@ input {
 }
 .cal-button {
   font-size: 2em;
-  flex-basis: 2em;
-  margin: .25em;
   flex-basis: 20%;
+  margin: .25em;
 }
 .cal-box {
-  width: 100%;
   font-size: 2em;
+  flex-basis: 100%;
+  text-align: center;
+}
+#footer {
+  text-align: center;
 }
