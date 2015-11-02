@@ -27,18 +27,18 @@ function prep() {
   container.appendChild(aside);
   container.appendChild(footer);
 
-  // Add container to page
-  document.body.appendChild(container);
-
+  // Insert content
   header.appendChild(heading());
   main.appendChild(calculator());
   footer.appendChild(themeButton());
   footer.appendChild(about());
 
+  // Add container to page
+  document.body.appendChild(container);
   document.getElementById('cal-box').focus();
 }
 
-function heading() {
+function heading(headContent) {
   // Add heading to header
   var title = document.createElement('h1');
   title.className = 'title';
@@ -178,4 +178,4 @@ function switchTheme() {
   }
 }
 
-document.body.onload = prep();
+prep();
