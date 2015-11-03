@@ -35,7 +35,7 @@ function prep() {
 
   // Add container to page
   document.body.appendChild(container);
-  document.getElementById('cal-box').focus();
+  //document.getElementById('cal-box').focus();
 }
 
 function heading(headContent) {
