@@ -9,10 +9,13 @@ html, input, button {
 .title{
   text-align: center;
 }
+#main {
+
+}
 #calculator {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 .cal-button {
   font-size: 2em;
@@ -23,7 +26,9 @@ html, input, button {
   font-size: 2em;
   flex-basis: 100%;
   text-align: center;
+  margin: .25em;
 }
 #footer {
   text-align: center;
+  margin: .25em;
 }
