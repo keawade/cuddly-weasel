@@ -3,22 +3,14 @@
 var buttons = ['7','8','9','+','4','5','6','-','1','2','3','*','0','.','=','/'];
 var lastNum = '=';
 
-function prep() {
+function renderContent() {
   // Create base elements for the page
-  var container = document.createElement('div');
-  var header = document.createElement('div');
-  var nav = document.createElement('div');
-  var main = document.createElement('div');
-  var aside = document.createElement('div');
-  var footer = document.createElement('div');
-
-  // Apply IDs to the base elements
-  container.id = 'container';
-  header.id = 'header';
-  nav.id = 'nav';
-  main.id = 'main';
-  aside.id = 'aside';
-  footer.id = 'footer';
+  var container = createElement('div', '', {id: 'container'});
+  var header = createElement('div', '', {id: 'header'});
+  var nav = createElement('div', '', {id: 'nav'});
+  var main = createElement('div', '', {id: 'main'});
+  var aside = createElement('div', '', {id: 'aside'});
+  var footer = createElement('div', '', {id: 'footer'});
 
   // Append main elements to container
   container.appendChild(header);
@@ -28,7 +20,7 @@ function prep() {
   container.appendChild(footer);
 
   // Insert content
-  header.appendChild(heading());
+  header.appendChild(createElement('h1', 'Calculon', {className: 'title'}));
   main.appendChild(calculator());
   footer.appendChild(themeButton());
   footer.appendChild(about());
@@ -38,44 +30,48 @@ function prep() {
   //document.getElementById('cal-box').focus();
 }
 
-function heading(headContent) {
-  // Add heading to header
-  var title = document.createElement('h1');
-  title.className = 'title';
-  title.textContent = 'Calculon';
-  return title;
+function createElement(type, textContent, options) {
+  var elem = document.createElement(type);
+  elem.textContent = textContent;
+  if(options){
+    for(var option in options){
+      elem[option] = options[option];
+    }
+  }
+  return elem;
 }
 
 function calculator() {
-  // Add calculator wrapper div
-  var calculatorWrap = document.createElement('div');
-  calculatorWrap.id = 'calculator';
-
-  // Add input box
-  var box = document.createElement('input');
-  box.className = 'cal-box';
-  box.id = 'cal-box';
-  calculatorWrap.appendChild(box);
-
-  // Add calculator buttons
+  var calculatorWrap = createElement('div', '', {id: 'calculator'}); // Add calculator wrapper div
+  calculatorWrap.appendChild(createElement('input', '', {className: 'cal-box', id: 'cal-box'})); // Add input box
   buttons.forEach(function(buttonContent){
-    var button = document.createElement('button');
-    button.className = 'cal-button';
-    button.id = buttonContent;
-    button.appendChild(document.createTextNode(buttonContent));
+    var button = createElement('button', buttonContent, {className: 'cal-button', id: buttonContent});
     button.addEventListener('click', handleButton, false);
     calculatorWrap.appendChild(button);
-  })
+  }); // Add calculator buttons
   return calculatorWrap;
 }
 
+function themeButton() {
+  var themeWrapper = createElement('div', '');
+  var toggle = createElement('button', 'Toggle Theme', {className: 'toggle', id: 'toggle'});
+  toggle.addEventListener('click', switchTheme, false);
+  themeWrapper.appendChild(toggle);
+  return themeWrapper;
+}
+
+function switchTheme() {
+  theme = document.body.className;
+  if(theme == 'theme-light') {
+    document.body.className = 'theme-dark';
+  } else {
+    document.body.className = 'theme-light';
+  }
+}
+
 function about(){
-  var about = document.createElement('p');
-  var a = document.createElement('a');
-  a.href = 'https://github.com/keawade';
-  a.textContent = '@keawade';
-  about.textContent = 'Created by ';
-  about.appendChild(a);
+  var about = createElement('p', 'Created by ');
+  about.appendChild(createElement('a', '@keawade', {href: 'https://github.com/keawade'}));
   return about;
 }
 
@@ -156,26 +152,4 @@ function handleButton(event) {
   }
 }
 
-function themeButton() {
-  var themeWrapper = document.createElement('div');
-  themeWrapper.id = 'theme-changer';
-
-  var toggle = document.createElement('button');
-  toggle.id = 'toggle';
-  toggle.className = 'toggle';
-  toggle.appendChild(document.createTextNode('Toggle Theme'));
-  toggle.addEventListener('click', switchTheme, false);
-  themeWrapper.appendChild(toggle);
-  return themeWrapper;
-}
-
-function switchTheme() {
-  theme = document.body.className;
-  if(theme == 'theme-light') {
-    document.body.className = 'theme-dark';
-  } else {
-    document.body.className = 'theme-light';
-  }
-}
-
-prep();
+renderContent();
