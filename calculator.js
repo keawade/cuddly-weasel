@@ -87,7 +87,13 @@ document.addEventListener('keypress', function(key){
     if(box === document.activeElement){
       //
     } else {
-      box.value = box.value.substring(0, box.value.length - 1);
+      if(box.value == ''){
+        // Do nothing
+      } else {
+        box.value = box.value.substring(0, box.value.length - 1);
+        lastNum = box.value.charAt(box.value.length-1);
+        console.log(lastNum);
+      }
     }
   }
 }, false);
