@@ -20,7 +20,7 @@ function renderContent() {
   container.appendChild(footer);
 
   // Insert content
-  header.appendChild(createElement('h1', 'Calculon', {className: 'title'}));
+  header.appendChild(createElement('h1', 'Calculator', {className: 'title'}));
   main.appendChild(calculator());
   footer.appendChild(themeButton());
   footer.appendChild(about());
@@ -119,18 +119,11 @@ function handleButton(event) {
       // If clicked button is '='
       if(clickedElem == '=') {
         // Evaluate current string
-        if(box.value.toUpperCase() == 'CALCULON'){
-          var p = document.createElement('p');
-          p.textContent = 'Funny story. The script called for me to say "Yes", but I gave it a little twist.';
-          document.getElementById('footer').appendChild(p);
-          box.value = 'Nooooo!';
+        answer = math.eval(box.value)
+        if(isNaN(answer)){
+          //
         } else {
-          answer = math.eval(box.value)
-          if(isNaN(answer)){
-            //
-          } else {
-            box.value = answer;
-          }
+          box.value = answer;
         }
         // Note that the last operation was an eval
         lastNum = 'new';
