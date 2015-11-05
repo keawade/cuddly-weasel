@@ -4,7 +4,7 @@ var buttons = ['7', '8', '9', '+',
   '4', '5', '6', '-',
   '1', '2', '3', '*',
   '0', '.', '=', '/',
-  'sin', 'cos', '^', '√',
+  'sin', 'cos', '^', 'sqrt',
   'tan', 'cot', '(', ')',
   'clr', '<-'
 ];
@@ -173,7 +173,7 @@ function handleButton(event) {
         lastNum = event.target.id;
       }
     // Trig Functions
-    } else if (/[sin]|[cos]|[tan]|[cot]/.test(event.target.id)) {
+  } else if (/[sin]|[cos]|[tan]|[cot]|[sqrt]/.test(event.target.id)) {
       if (lastNum == answer) {
         box.value = event.target.id + '(';
       } else if (isNaN(lastNum)) {
