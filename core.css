@@ -48,6 +48,7 @@ html, input, button {
   font-size: 2em;
   flex-basis: 20%;
   margin: .25em;
+  padding: .1em;
 }
 .cal-box {
   font-size: 2em;

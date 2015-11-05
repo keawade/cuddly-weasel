@@ -1,7 +1,15 @@
 /* global math */
 // Variables
-var buttons = ['7','8','9','+','4','5','6','-','1','2','3','*','0','.','=','/'];
-var lastNum = '=';
+var buttons = ['7','8','9','+',
+               '4','5','6','-',
+               '1','2','3','*',
+               '0','.','=','/',
+               'sin','cos','^','√',
+               'tan','cot','(',')',
+               'clr','<-'];
+
+var lastNum = 'new';
+var answer;
 
 function renderContent() {
   // Create base elements for the page
@@ -75,12 +83,15 @@ function about(){
   return about;
 }
 
+// Need to rewrite keypress to be more efficient
+
 // If Enter/Return is pressed, click '=' to evaluate
 document.addEventListener('keypress', function(key){
+  console.log(key.keyCode);
   var keyString = String.fromCharCode(key.charCode);
   if(key.keyCode == 13){
     document.getElementById('=').click();
-  } else if (/[0-9]|[/*-+=.]/.test(keyString)) {
+  } else if (/[0-9]|[-/*+=.^()]/.test(keyString)) {
     document.getElementById(keyString).click();
   } else if (key.keyCode == 8){
     var box = document.getElementById('cal-box')
@@ -90,55 +101,61 @@ document.addEventListener('keypress', function(key){
       if(box.value == ''){
         // Do nothing
       } else {
-        box.value = box.value.substring(0, box.value.length - 1);
-        lastNum = box.value.charAt(box.value.length-1);
-        console.log(lastNum);
+        document.getElementById('<-').click();
       }
     }
-  }
+  } // keyCode 46 is Delete
 }, false);
 
 function handleButton(event) {
-  var answer;
   // If clicked button is a number
   var box = document.getElementById('cal-box');
-  var clickedElem = event.target.id;
-  if(box === document.activeElement){
-    //
-  } else {
-    if(!isNaN(clickedElem)) {
-      // If last operation was math.eval then start new string
-      if(lastNum == 'new') {
-        box.value = '';
+  if(!(box === document.activeElement)){
+    if(event.target.id == '='){
+      answer = math.eval(box.value);
+      if(!isNaN(answer)){
+        box.value = answer;
+        lastNum = answer;
       }
-      // Append new value
-      box.value = box.value + clickedElem;
-      lastNum = clickedElem;
-    // If clicked button is not a number
-    } else {
-      // If clicked button is '='
-      if(clickedElem == '=') {
-        // Evaluate current string
-        answer = math.eval(box.value)
-        if(isNaN(answer)){
-          //
-        } else {
-          box.value = answer;
-        }
-        // Note that the last operation was an eval
-        lastNum = 'new';
-      // If clicked button is an operation
-      } else {
-        // If the last button clicked was a number, allow the operator to be appended
-        if(!isNaN(lastNum)) {
-          box.value = box.value + clickedElem;
-          lastNum = clickedElem;
-        }
+    } else if (event.target.id == 'clr'){
+      box.value = '';
+      lastNum = 'new';
+    } else if (event.target.id == '<-') {
+      box.value = box.value.substring(0, box.value.length - 1);
+      lastNum = box.value.charAt(box.value.length-1);
+    } else if(/[0-9]/.test(event.target.id)){
+      if(!(/[)]/.test(lastNum))){
+        box.value = box.value + event.target.id;
+        lastNum = event.target.id;
+      }
+    } else if(/[-/*+.^()]/.test(event.target.id)){
+      box.value = box.value + event.target.id;
+      lastNum = event.target.id;
+    } else if (/[sin]|[cos]|[tan]|[cot]/.test(event.target.id)){
+      if(lastNum == answer){
+        box.value = event.target.id + '(';
+      } else if(isNaN(lastNum)){
+        box.value = box.value + event.target.id + '('
+        lastNum = '(';
       }
     }
-    // Remove keyboard focus on button
     this.blur();
-  } if(clickedElem == '=') {
+  }
+}
+/*
+
+if(!isNaN(event.target.id)) {
+  // If last operation was math.eval then start new string
+  if(lastNum == 'new') {
+    box.value = '';
+  }
+  // Append new value
+  box.value = box.value + event.target.id;
+  lastNum = event.target.id;
+// If clicked button is not a number
+} else {
+  // If clicked button is '='
+  if(event.target.id == '=') {
     // Evaluate current string
     answer = math.eval(box.value)
     if(isNaN(answer)){
@@ -148,7 +165,27 @@ function handleButton(event) {
     }
     // Note that the last operation was an eval
     lastNum = 'new';
+  // If clicked button is an operation
+  } else {
+    // If the last button clicked was a number, allow the operator to be appended
+    if(!isNaN(lastNum)) {
+      box.value = box.value + event.target.id;
+      lastNum = event.target.id;
+    }
   }
 }
+// Remove keyboard focus on button
+this.blur();
+} if(event.target.id == '=') {
+// Evaluate current string
+answer = math.eval(box.value)
+if(isNaN(answer)){
+  //
+} else {
+  box.value = answer;
+}
+// Note that the last operation was an eval
+lastNum = 'new';
+*/
 
 renderContent();
