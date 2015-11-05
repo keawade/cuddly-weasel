@@ -60,6 +60,9 @@ html, input, button {
   text-align: center;
   margin: .25em;
 }
+#autoclr {
+  margin-right: .5em;
+}
 .auto-true span {
   color: #859900;
 }
