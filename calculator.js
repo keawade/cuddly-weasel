@@ -1,24 +1,37 @@
 /* global math */
 // Variables
-var buttons = ['7','8','9','+',
-               '4','5','6','-',
-               '1','2','3','*',
-               '0','.','=','/',
-               'sin','cos','^','√',
-               'tan','cot','(',')',
-               'clr','<-'];
+var buttons = ['7', '8', '9', '+',
+  '4', '5', '6', '-',
+  '1', '2', '3', '*',
+  '0', '.', '=', '/',
+  'sin', 'cos', '^', '√',
+  'tan', 'cot', '(', ')',
+  'clr', '<-'
+];
 
 var lastNum = 'new';
 var answer;
 
 function renderContent() {
   // Create base elements for the page
-  var container = createElement('div', '', {id: 'container'});
-  var header = createElement('div', '', {id: 'header'});
-  var nav = createElement('div', '', {id: 'nav'});
-  var main = createElement('div', '', {id: 'main'});
-  var aside = createElement('div', '', {id: 'aside'});
-  var footer = createElement('div', '', {id: 'footer'});
+  var container = createElement('div', '', {
+    id: 'container'
+  });
+  var header = createElement('div', '', {
+    id: 'header'
+  });
+  var nav = createElement('div', '', {
+    id: 'nav'
+  });
+  var main = createElement('div', '', {
+    id: 'main'
+  });
+  var aside = createElement('div', '', {
+    id: 'aside'
+  });
+  var footer = createElement('div', '', {
+    id: 'footer'
+  });
 
   // Append main elements to container
   container.appendChild(header);
@@ -28,7 +41,9 @@ function renderContent() {
   container.appendChild(footer);
 
   // Insert content
-  header.appendChild(createElement('h1', 'Calculator', {className: 'title'}));
+  header.appendChild(createElement('h1', 'Calculator', {
+    className: 'title'
+  }));
   main.appendChild(calculator());
   footer.appendChild(themeButton());
   footer.appendChild(about());
@@ -41,8 +56,8 @@ function renderContent() {
 function createElement(type, textContent, options) {
   var elem = document.createElement(type);
   elem.textContent = textContent;
-  if(options){
-    for(var option in options){
+  if (options) {
+    for (var option in options) {
       elem[option] = options[option];
     }
   }
@@ -50,10 +65,18 @@ function createElement(type, textContent, options) {
 }
 
 function calculator() {
-  var calculatorWrap = createElement('div', '', {id: 'calculator'}); // Add calculator wrapper div
-  calculatorWrap.appendChild(createElement('input', '', {className: 'cal-box', id: 'cal-box'})); // Add input box
-  buttons.forEach(function(buttonContent){
-    var button = createElement('button', buttonContent, {className: 'cal-button', id: buttonContent});
+  var calculatorWrap = createElement('div', '', {
+    id: 'calculator'
+  }); // Add calculator wrapper div
+  calculatorWrap.appendChild(createElement('input', '', {
+    className: 'cal-box',
+    id: 'cal-box'
+  })); // Add input box
+  buttons.forEach(function(buttonContent) {
+    var button = createElement('button', buttonContent, {
+      className: 'cal-button',
+      id: buttonContent
+    });
     button.addEventListener('click', handleButton, false);
     calculatorWrap.appendChild(button);
   }); // Add calculator buttons
@@ -62,7 +85,10 @@ function calculator() {
 
 function themeButton() {
   var themeWrapper = createElement('div', '');
-  var toggle = createElement('button', 'Toggle Theme', {className: 'toggle', id: 'toggle'});
+  var toggle = createElement('button', 'Toggle Theme', {
+    className: 'toggle',
+    id: 'toggle'
+  });
   toggle.addEventListener('click', switchTheme, false);
   themeWrapper.appendChild(toggle);
   return themeWrapper;
@@ -70,35 +96,37 @@ function themeButton() {
 
 function switchTheme() {
   theme = document.body.className;
-  if(theme == 'theme-light') {
+  if (theme == 'theme-light') {
     document.body.className = 'theme-dark';
   } else {
     document.body.className = 'theme-light';
   }
 }
 
-function about(){
+function about() {
   var about = createElement('p', 'Created by ');
-  about.appendChild(createElement('a', '@keawade', {href: 'https://github.com/keawade'}));
+  about.appendChild(createElement('a', '@keawade', {
+    href: 'https://github.com/keawade'
+  }));
   return about;
 }
 
 // Need to rewrite keypress to be more efficient
 
 // If Enter/Return is pressed, click '=' to evaluate
-document.addEventListener('keypress', function(key){
+document.addEventListener('keypress', function(key) {
   console.log(key.keyCode);
   var keyString = String.fromCharCode(key.charCode);
-  if(key.keyCode == 13){
+  if (key.keyCode == 13) {
     document.getElementById('=').click();
   } else if (/[0-9]|[-/*+=.^()]/.test(keyString)) {
     document.getElementById(keyString).click();
-  } else if (key.keyCode == 8){
+  } else if (key.keyCode == 8) {
     var box = document.getElementById('cal-box')
-    if(box === document.activeElement){
+    if (box === document.activeElement) {
       //
     } else {
-      if(box.value == ''){
+      if (box.value == '') {
         // Do nothing
       } else {
         document.getElementById('<-').click();
@@ -110,31 +138,31 @@ document.addEventListener('keypress', function(key){
 function handleButton(event) {
   // If clicked button is a number
   var box = document.getElementById('cal-box');
-  if(!(box === document.activeElement)){
-    if(event.target.id == '='){
+  if (!(box === document.activeElement)) {
+    if (event.target.id == '=') {
       answer = math.eval(box.value);
-      if(!isNaN(answer)){
+      if (!isNaN(answer)) {
         box.value = answer;
         lastNum = answer;
       }
-    } else if (event.target.id == 'clr'){
+    } else if (event.target.id == 'clr') {
       box.value = '';
       lastNum = 'new';
     } else if (event.target.id == '<-') {
       box.value = box.value.substring(0, box.value.length - 1);
-      lastNum = box.value.charAt(box.value.length-1);
-    } else if(/[0-9]/.test(event.target.id)){
-      if(!(/[)]/.test(lastNum))){
+      lastNum = box.value.charAt(box.value.length - 1);
+    } else if (/[0-9]/.test(event.target.id)) {
+      if (!(/[)]/.test(lastNum))) {
         box.value = box.value + event.target.id;
         lastNum = event.target.id;
       }
-    } else if(/[-/*+.^()]/.test(event.target.id)){
+    } else if (/[-/*+.^()]/.test(event.target.id)) {
       box.value = box.value + event.target.id;
       lastNum = event.target.id;
-    } else if (/[sin]|[cos]|[tan]|[cot]/.test(event.target.id)){
-      if(lastNum == answer){
+    } else if (/[sin]|[cos]|[tan]|[cot]/.test(event.target.id)) {
+      if (lastNum == answer) {
         box.value = event.target.id + '(';
-      } else if(isNaN(lastNum)){
+      } else if (isNaN(lastNum)) {
         box.value = box.value + event.target.id + '('
         lastNum = '(';
       }
