@@ -197,6 +197,10 @@ function handleButton(event) {
         box.value = box.value + event.target.id;
         lastNum = event.target.id;
       }
+    } else if (event.target.id == '^'){
+      if (/[0-9]|\)/.test(lastNum)) {
+        box.value = box.value + '^(';
+      }
     } else if (/[\(\)]/.test(event.target.id)) {
       box.value = box.value + event.target.id;
       lastNum = event.target.id;
