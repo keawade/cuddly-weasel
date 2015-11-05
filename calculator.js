@@ -104,10 +104,16 @@ function switchTheme() {
 }
 
 function about() {
-  var about = createElement('p', 'Created by ');
-  about.appendChild(createElement('a', '@keawade', {
-    href: 'https://github.com/keawade'
-  }));
+  var about = createElement('div','');
+
+  var math = createElement('p', 'Solutions calculated using ');
+  math.appendChild(createElement('a', 'math.js', { href: 'http://mathjs.org/'} ));
+  about.appendChild(math);
+
+  var creator = createElement('p', 'Created by ');
+  creator.appendChild(createElement('a', '@keawade', { href: 'https://github.com/keawade' }));
+  about.appendChild(creator);
+
   return about;
 }
 
@@ -136,29 +142,37 @@ document.addEventListener('keypress', function(key) {
 }, false);
 
 function handleButton(event) {
-  // If clicked button is a number
   var box = document.getElementById('cal-box');
+
   if (!(box === document.activeElement)) {
+    // Solve
     if (event.target.id == '=') {
       answer = math.eval(box.value);
       if (!isNaN(answer)) {
         box.value = answer;
         lastNum = answer;
       }
+    // Clear
     } else if (event.target.id == 'clr') {
       box.value = '';
       lastNum = 'new';
+    // Backspace
     } else if (event.target.id == '<-') {
       box.value = box.value.substring(0, box.value.length - 1);
       lastNum = box.value.charAt(box.value.length - 1);
+    // Numbers
     } else if (/[0-9]/.test(event.target.id)) {
       if (!(/[)]/.test(lastNum))) {
         box.value = box.value + event.target.id;
         lastNum = event.target.id;
       }
+    // Symbols
     } else if (/[-/*+.^()]/.test(event.target.id)) {
-      box.value = box.value + event.target.id;
-      lastNum = event.target.id;
+      if(!(/[new]|[-/*+.^()]/.test(lastNum))){
+        box.value = box.value + event.target.id;
+        lastNum = event.target.id;
+      }
+    // Trig Functions
     } else if (/[sin]|[cos]|[tan]|[cot]/.test(event.target.id)) {
       if (lastNum == answer) {
         box.value = event.target.id + '(';
