@@ -6,11 +6,16 @@ var buttons = ['7', '8', '9', '+',
   '0', '.', '=', '/',
   'sin', 'cos', '^', 'sqrt',
   'tan', 'cot', '(', ')',
-  'clr', '<-'
+  'e^','ln','clr', '<-','pi'
 ];
+
+// e^x
+// ln()
+// Closing paraenthesis bug
 
 var lastNum = 'new';
 var answer;
+var autoclear = false;
 
 function renderContent() {
   // Create base elements for the page
@@ -45,7 +50,7 @@ function renderContent() {
     className: 'title'
   }));
   main.appendChild(calculator());
-  footer.appendChild(themeButton());
+  footer.appendChild(footerButtons());
   footer.appendChild(about());
 
   // Add container to page
@@ -83,24 +88,37 @@ function calculator() {
   return calculatorWrap;
 }
 
-function themeButton() {
-  var themeWrapper = createElement('div', '');
-  var toggle = createElement('button', 'Toggle Theme', {
-    className: 'toggle',
-    id: 'toggle'
-  });
-  toggle.addEventListener('click', switchTheme, false);
-  themeWrapper.appendChild(toggle);
-  return themeWrapper;
-}
+function footerButtons() {
+  var btnWrapper = createElement('div', '');
 
-function switchTheme() {
-  theme = document.body.className;
-  if (theme == 'theme-light') {
-    document.body.className = 'theme-dark';
-  } else {
-    document.body.className = 'theme-light';
-  }
+  var span = createElement('span', 'OFF', { id: 'spantxt' });
+  var autoclr = createElement('button', 'Auto Clear: ', { className: 'auto-false', id: 'autoclr' });
+  autoclr.addEventListener('click', function(event){
+    if(autoclr.className == 'auto-false'){
+      autoclr.className = 'auto-true';
+      span.textContent = 'ON';
+      autoclear = true;
+    } else {
+      autoclr.className = 'auto-false';
+      span.textContent = 'OFF';
+      autoclear = false;
+    }
+  }, false);
+  autoclr.appendChild(span);
+
+  var toggle = createElement('button', 'Toggle Theme', { className: 'toggle', id: 'toggle' });
+  toggle.addEventListener('click', function(event){
+    theme = document.body.className;
+    if (theme == 'theme-light') {
+      document.body.className = 'theme-dark';
+    } else {
+      document.body.className = 'theme-light';
+    }
+  }, false);
+
+  btnWrapper.appendChild(autoclr);
+  btnWrapper.appendChild(toggle);
+  return btnWrapper;
 }
 
 function about() {
@@ -121,7 +139,6 @@ function about() {
 
 // If Enter/Return is pressed, click '=' to evaluate
 document.addEventListener('keypress', function(key) {
-  console.log(key.keyCode);
   var keyString = String.fromCharCode(key.charCode);
   if (key.keyCode == 13) {
     document.getElementById('=').click();
@@ -146,11 +163,21 @@ function handleButton(event) {
 
   if (!(box === document.activeElement)) {
     // Solve
+    if(autoclear){
+      if(lastNum == '=') {
+        box.value = '';
+      }
+    }
     if (event.target.id == '=') {
-      answer = math.eval(box.value);
+      var temp = box.value.replace(/ln\(/g, 'log(');
+      answer = math.eval(temp);
       if (!isNaN(answer)) {
         box.value = answer;
-        lastNum = answer;
+        if(autoclear){
+          lastNum = '=';
+        } else {
+          lastNum = answer;
+        }
       }
     // Clear
     } else if (event.target.id == 'clr') {
@@ -162,24 +189,24 @@ function handleButton(event) {
       lastNum = box.value.charAt(box.value.length - 1);
     // Numbers
     } else if (/[0-9]/.test(event.target.id)) {
-      if (!(/[)]/.test(lastNum))) {
-        box.value = box.value + event.target.id;
-        lastNum = event.target.id;
-      }
+      box.value = box.value + event.target.id;
+      lastNum = event.target.id;
     // Symbols
-    } else if (/[-/*+.^()]/.test(event.target.id)) {
-      if(!(/[new]|[-/*+.^()]/.test(lastNum))){
+    } else if (/[-/*+.]/.test(event.target.id)) {
+      if(!(/new|[-/*+.]/.test(lastNum))){
         box.value = box.value + event.target.id;
         lastNum = event.target.id;
       }
+    } else if (/[\(\)]/.test(event.target.id)) {
+      box.value = box.value + event.target.id;
+      lastNum = event.target.id;
     // Trig Functions
-  } else if (/[sin]|[cos]|[tan]|[cot]|[sqrt]/.test(event.target.id)) {
-      if (lastNum == answer) {
-        box.value = event.target.id + '(';
-      } else if (isNaN(lastNum)) {
-        box.value = box.value + event.target.id + '('
-        lastNum = '(';
-      }
+    } else if (/sin|cos|tan|cot|sqrt|e\^|ln/.test(event.target.id)) {
+      box.value = box.value + event.target.id + '('
+      lastNum = '(';
+    } else if (/pi/.test(event.target.id)){
+      box.value = box.value + '(pi)';
+      lastNum = ')';
     }
     this.blur();
   }

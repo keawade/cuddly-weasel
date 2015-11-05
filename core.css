@@ -60,3 +60,9 @@ html, input, button {
   text-align: center;
   margin: .25em;
 }
+.auto-true span {
+  color: #859900;
+}
+.auto-false span {
+  color: #dc322f;
+}
