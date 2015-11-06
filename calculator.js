@@ -19,24 +19,12 @@ var autoclear = false;
 
 function renderContent() {
   // Create base elements for the page
-  var container = createElement('div', '', {
-    id: 'container'
-  });
-  var header = createElement('div', '', {
-    id: 'header'
-  });
-  var nav = createElement('div', '', {
-    id: 'nav'
-  });
-  var main = createElement('div', '', {
-    id: 'main'
-  });
-  var aside = createElement('div', '', {
-    id: 'aside'
-  });
-  var footer = createElement('div', '', {
-    id: 'footer'
-  });
+  var container = createElement('div', '', { id: 'container' });
+  var header =    createElement('div', '', { id: 'header' });
+  var nav =       createElement('div', '', { id: 'nav' });
+  var main =      createElement('div', '', { id: 'main' });
+  var aside =     createElement('div', '', { id: 'aside' });
+  var footer =    createElement('div', '', { id: 'footer' });
 
   // Append main elements to container
   container.appendChild(header);
@@ -46,9 +34,7 @@ function renderContent() {
   container.appendChild(footer);
 
   // Insert content
-  header.appendChild(createElement('h1', 'Calculator', {
-    className: 'title'
-  }));
+  header.appendChild(createElement('h1', 'Calculator', { className: 'title' }));
   main.appendChild(calculator());
   footer.appendChild(footerButtons());
   footer.appendChild(about());
