@@ -15,7 +15,7 @@ var buttons = ['7', '8', '9', '+',
 
 var lastNum = 'new';
 var answer;
-var autoclear = false;
+var autoclear = true;
 
 function renderContent() {
   // Create base elements for the page
@@ -77,8 +77,11 @@ function calculator() {
 function footerButtons() {
   var btnWrapper = createElement('div', '');
 
-  var span = createElement('span', 'OFF', { id: 'spantxt' });
-  var autoclr = createElement('button', 'Auto Clear: ', { className: 'auto-false', id: 'autoclr' });
+  var span = createElement('span', (autoclear ? 'ON' : 'OFF'), { id: 'spantxt' });
+  var autoclr = createElement('button', 'Auto Clear: ', {
+    className: (autoclear ? 'auto-true' : 'auto-false'),
+    id: 'autoclr'
+  });
   autoclr.addEventListener('click', function(event){
     if(autoclr.className == 'auto-false'){
       autoclr.className = 'auto-true';
@@ -147,11 +150,10 @@ function handleButton(event) {
 
   if (!(box === document.activeElement)) {
     // Solve
-    if(autoclear){
-      if(lastNum == '=') {
-        box.value = '';
-      }
-    }
+    if (autoclear)
+      if (lastNum == '=')
+        if (! /[-+*^/]/.test(event.target.id))
+          box.value = '';
     if (event.target.id == '=') {
       var temp = box.value.replace(/ln\(/g, 'log(');
       answer = math.eval(temp);
