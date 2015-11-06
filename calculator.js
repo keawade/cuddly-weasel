@@ -124,25 +124,23 @@ function about() {
 // Need to rewrite keypress to be more efficient
 
 // If Enter/Return is pressed, click '=' to evaluate
-document.addEventListener('keypress', function(key) {
-  var keyString = String.fromCharCode(key.charCode);
-  if (key.keyCode == 13) {
+document.addEventListener('keypress', function(ev) {
+  var keyString = String.fromCharCode(ev.charCode);
+  if (ev.keyCode == 13) {
     document.getElementById('=').click();
   } else if (/[0-9]|[-/*+=.^()]/.test(keyString)) {
     document.getElementById(keyString).click();
-  } else if (key.keyCode == 8) {
-    var box = document.getElementById('cal-box')
-    if (box === document.activeElement) {
-      //
-    } else {
-      if (box.value == '') {
-        // Do nothing
-      } else {
-        document.getElementById('<-').click();
-      }
-    }
-  } // keyCode 46 is Delete
-}, false);
+  }
+});
+// Backspace
+document.addEventListener('keydown', function(ev) {
+  if (ev.keyCode == 8) {
+    var box = document.getElementById('cal-box');
+    if (box !== document.activeElement)
+      document.getElementById('<-').click();
+    ev.preventDefault();
+  }
+});
 
 function handleButton(event) {
   var box = document.getElementById('cal-box');
