@@ -199,50 +199,5 @@ function handleButton(event) {
     this.blur();
   }
 }
-/*
-
-if(!isNaN(event.target.id)) {
-  // If last operation was math.eval then start new string
-  if(lastNum == 'new') {
-    box.value = '';
-  }
-  // Append new value
-  box.value = box.value + event.target.id;
-  lastNum = event.target.id;
-// If clicked button is not a number
-} else {
-  // If clicked button is '='
-  if(event.target.id == '=') {
-    // Evaluate current string
-    answer = math.eval(box.value)
-    if(isNaN(answer)){
-      //
-    } else {
-      box.value = answer;
-    }
-    // Note that the last operation was an eval
-    lastNum = 'new';
-  // If clicked button is an operation
-  } else {
-    // If the last button clicked was a number, allow the operator to be appended
-    if(!isNaN(lastNum)) {
-      box.value = box.value + event.target.id;
-      lastNum = event.target.id;
-    }
-  }
-}
-// Remove keyboard focus on button
-this.blur();
-} if(event.target.id == '=') {
-// Evaluate current string
-answer = math.eval(box.value)
-if(isNaN(answer)){
-  //
-} else {
-  box.value = answer;
-}
-// Note that the last operation was an eval
-lastNum = 'new';
-*/
 
 renderContent();
