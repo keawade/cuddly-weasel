@@ -46,7 +46,7 @@ function renderContent() {
   container.appendChild(footer);
 
   // Insert content
-  header.appendChild(createElement('h1', 'Calculator', {
+  header.appendChild(createElement('h1', 'Cuddly Weasel', {
     className: 'title'
   }));
   main.appendChild(calculator());
