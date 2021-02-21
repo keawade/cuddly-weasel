@@ -34,7 +34,9 @@ function renderContent() {
   container.appendChild(footer);
 
   // Insert content
-  header.appendChild(createElement('h1', 'Calculator', { className: 'title' }));
+  header.appendChild(createElement('h1', 'Cuddly Weasel', {
+    className: 'title'
+  }));
   main.appendChild(calculator());
   footer.appendChild(footerButtons());
   footer.appendChild(about());
