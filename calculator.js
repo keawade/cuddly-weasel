@@ -15,28 +15,16 @@ var buttons = ['7', '8', '9', '+',
 
 var lastNum = 'new';
 var answer;
-var autoclear = false;
+var autoclear = true;
 
 function renderContent() {
   // Create base elements for the page
-  var container = createElement('div', '', {
-    id: 'container'
-  });
-  var header = createElement('div', '', {
-    id: 'header'
-  });
-  var nav = createElement('div', '', {
-    id: 'nav'
-  });
-  var main = createElement('div', '', {
-    id: 'main'
-  });
-  var aside = createElement('div', '', {
-    id: 'aside'
-  });
-  var footer = createElement('div', '', {
-    id: 'footer'
-  });
+  var container = createElement('div', '', { id: 'container' });
+  var header =    createElement('div', '', { id: 'header' });
+  var nav =       createElement('div', '', { id: 'nav' });
+  var main =      createElement('div', '', { id: 'main' });
+  var aside =     createElement('div', '', { id: 'aside' });
+  var footer =    createElement('div', '', { id: 'footer' });
 
   // Append main elements to container
   container.appendChild(header);
@@ -91,8 +79,11 @@ function calculator() {
 function footerButtons() {
   var btnWrapper = createElement('div', '');
 
-  var span = createElement('span', 'OFF', { id: 'spantxt' });
-  var autoclr = createElement('button', 'Auto Clear: ', { className: 'auto-false', id: 'autoclr' });
+  var span = createElement('span', (autoclear ? 'ON' : 'OFF'), { id: 'spantxt' });
+  var autoclr = createElement('button', 'Auto Clear: ', {
+    className: (autoclear ? 'auto-true' : 'auto-false'),
+    id: 'autoclr'
+  });
   autoclr.addEventListener('click', function(event){
     if(autoclr.className == 'auto-false'){
       autoclr.className = 'auto-true';
@@ -138,36 +129,33 @@ function about() {
 // Need to rewrite keypress to be more efficient
 
 // If Enter/Return is pressed, click '=' to evaluate
-document.addEventListener('keypress', function(key) {
-  var keyString = String.fromCharCode(key.charCode);
-  if (key.keyCode == 13) {
+document.addEventListener('keypress', function(ev) {
+  var keyString = String.fromCharCode(ev.charCode);
+  if (ev.keyCode == 13) {
     document.getElementById('=').click();
   } else if (/[0-9]|[-/*+=.^()]/.test(keyString)) {
     document.getElementById(keyString).click();
-  } else if (key.keyCode == 8) {
-    var box = document.getElementById('cal-box')
-    if (box === document.activeElement) {
-      //
-    } else {
-      if (box.value == '') {
-        // Do nothing
-      } else {
-        document.getElementById('<-').click();
-      }
-    }
-  } // keyCode 46 is Delete
-}, false);
+  }
+});
+// Backspace
+document.addEventListener('keydown', function(ev) {
+  if (ev.keyCode == 8) {
+    var box = document.getElementById('cal-box');
+    if (box !== document.activeElement)
+      document.getElementById('<-').click();
+    ev.preventDefault();
+  }
+});
 
 function handleButton(event) {
   var box = document.getElementById('cal-box');
 
   if (!(box === document.activeElement)) {
     // Solve
-    if(autoclear){
-      if(lastNum == '=') {
-        box.value = '';
-      }
-    }
+    if (autoclear)
+      if (lastNum == '=')
+        if (! /[-+*^/]/.test(event.target.id))
+          box.value = '';
     if (event.target.id == '=') {
       var temp = box.value.replace(/ln\(/g, 'log(');
       answer = math.eval(temp);
@@ -215,50 +203,5 @@ function handleButton(event) {
     this.blur();
   }
 }
-/*
-
-if(!isNaN(event.target.id)) {
-  // If last operation was math.eval then start new string
-  if(lastNum == 'new') {
-    box.value = '';
-  }
-  // Append new value
-  box.value = box.value + event.target.id;
-  lastNum = event.target.id;
-// If clicked button is not a number
-} else {
-  // If clicked button is '='
-  if(event.target.id == '=') {
-    // Evaluate current string
-    answer = math.eval(box.value)
-    if(isNaN(answer)){
-      //
-    } else {
-      box.value = answer;
-    }
-    // Note that the last operation was an eval
-    lastNum = 'new';
-  // If clicked button is an operation
-  } else {
-    // If the last button clicked was a number, allow the operator to be appended
-    if(!isNaN(lastNum)) {
-      box.value = box.value + event.target.id;
-      lastNum = event.target.id;
-    }
-  }
-}
-// Remove keyboard focus on button
-this.blur();
-} if(event.target.id == '=') {
-// Evaluate current string
-answer = math.eval(box.value)
-if(isNaN(answer)){
-  //
-} else {
-  box.value = answer;
-}
-// Note that the last operation was an eval
-lastNum = 'new';
-*/
 
 renderContent();
